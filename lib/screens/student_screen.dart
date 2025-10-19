@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import '../services/firestore_service.dart';
 import '../models/student_model.dart';
-
 class StudentScreen extends StatefulWidget {
   const StudentScreen({super.key});
   @override
   State<StudentScreen> createState() => _StudentScreenState();
 }
-
 class _StudentScreenState extends State<StudentScreen> {
   final FirestoreService _fs = FirestoreService();
   final name = TextEditingController();
   final dept = TextEditingController();
   final roll = TextEditingController();
-
   void _addStudent() {
     if (name.text.trim().isEmpty) return;
     final s = Student(id: '', name: name.text.trim(), department: dept.text.trim(), roll: roll.text.trim());
     _fs.addStudent(s);
     name.clear(); dept.clear(); roll.clear();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

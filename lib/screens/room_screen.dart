@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import '../services/firestore_service.dart';
 import '../models/room_model.dart';
-
 class RoomScreen extends StatefulWidget {
   const RoomScreen({super.key});
   @override
   State<RoomScreen> createState() => _RoomScreenState();
 }
-
 class _RoomScreenState extends State<RoomScreen> {
   final FirestoreService _fs = FirestoreService();
   final roomNo = TextEditingController();
   final capacity = TextEditingController();
-
   void _addRoom() {
     final rNo = roomNo.text.trim();
     final cap = int.tryParse(capacity.text.trim()) ?? 0;
@@ -22,7 +19,6 @@ class _RoomScreenState extends State<RoomScreen> {
     roomNo.clear();
     capacity.clear();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

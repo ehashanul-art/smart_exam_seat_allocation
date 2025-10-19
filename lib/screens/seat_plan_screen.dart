@@ -4,24 +4,18 @@ import '../models/seat_plan_model.dart';
 import '../models/student_model.dart';
 import '../models/room_model.dart';
 import '../models/exam_model.dart';
-
 class SeatPlanScreen extends StatefulWidget {
   const SeatPlanScreen({super.key});
-
   @override
   State<SeatPlanScreen> createState() => _SeatPlanScreenState();
 }
-
 class _SeatPlanScreenState extends State<SeatPlanScreen> {
   final FirestoreService _fs = FirestoreService();
-
   List<Student> _students = [];
   List<Room> _rooms = [];
   List<Exam> _exams = [];
-
   String? selectedExamId;
   bool generating = false;
-
   @override
   void initState() {
     super.initState();
@@ -29,54 +23,37 @@ class _SeatPlanScreenState extends State<SeatPlanScreen> {
     _fs.roomsStream().listen((r) => setState(() => _rooms = r));
     _fs.examsStream().listen((e) => setState(() => _exams = e));
   }
-
   Future<void> _generateSeatPlan() async {
     if (selectedExamId == null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Select an exam first')));
       return;
     }
-
     if (_students.isEmpty || _rooms.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Add students and rooms first')));
       return;
     }
-
     setState(() => generating = true);
-
     try {
       await _fs.clearSeatPlanForExam(selectedExamId!);
-
-      // 🔹 Load the selected exam
       final selectedExam =
       _exams.firstWhere((e) => e.id == selectedExamId!, orElse: () => Exam(id: '', courseName: '', date: DateTime.now(), department: ''));
-
-      // 🔹 Separate students by course (same course = same branch)
       final sameCourseStudents = _students
           .where((s) => s.department.toLowerCase() ==
           selectedExam.department.toLowerCase())
           .toList();
-
       final otherCourseStudents = _students
           .where((s) => s.department.toLowerCase() !=
           selectedExam.department.toLowerCase())
           .toList();
-
-      // 🔹 Shuffle to randomize a bit
       sameCourseStudents.shuffle();
       otherCourseStudents.shuffle();
-
-      // 🔹 Assign seat numbers by "branch" (right/left)
       int seatCounter = 0;
       final rooms = List<Room>.from(_rooms);
-
       for (final room in rooms) {
         int cap = room.capacity;
-        // Divide capacity into two halves
         int half = (cap / 2).floor();
-
-        // 🔹 Fill left side = sameCourseStudents
         for (int i = 0; i < half && sameCourseStudents.isNotEmpty; i++) {
           final stu = sameCourseStudents.removeAt(0);
           seatCounter++;
@@ -90,8 +67,6 @@ class _SeatPlanScreenState extends State<SeatPlanScreen> {
           );
           await _fs.addSeatPlanItem(item);
         }
-
-        // 🔹 Fill right side = otherCourseStudents
         for (int i = 0; i < half && otherCourseStudents.isNotEmpty; i++) {
           final stu = otherCourseStudents.removeAt(0);
           seatCounter++;
@@ -106,7 +81,6 @@ class _SeatPlanScreenState extends State<SeatPlanScreen> {
           await _fs.addSeatPlanItem(item);
         }
       }
-
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Smart seat plan generated')));
     } catch (e) {
@@ -116,7 +90,6 @@ class _SeatPlanScreenState extends State<SeatPlanScreen> {
       setState(() => generating = false);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,13 +130,10 @@ class _SeatPlanScreenState extends State<SeatPlanScreen> {
                   if (plan.isEmpty) {
                     return const Center(child: Text('No seat plan yet'));
                   }
-
-                  // Group by room
                   final byRoom = <String, List<SeatPlanItem>>{};
                   for (final p in plan) {
                     byRoom.putIfAbsent(p.roomNo, () => []).add(p);
                   }
-
                   return ListView(
                     children: byRoom.entries.map((e) {
                       return Card(

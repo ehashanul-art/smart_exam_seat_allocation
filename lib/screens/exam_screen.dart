@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import '../services/firestore_service.dart';
 import '../models/exam_model.dart';
-
 class ExamScreen extends StatefulWidget {
   const ExamScreen({super.key});
-
   @override
   State<ExamScreen> createState() => _ExamScreenState();
 }
-
 class _ExamScreenState extends State<ExamScreen> {
   final FirestoreService _fs = FirestoreService();
   final course = TextEditingController();
   final dept = TextEditingController();
   DateTime? chosenDate;
   TimeOfDay? chosenTime;
-
   void _pickDate() async {
     final now = DateTime.now();
     final d = await showDatePicker(
@@ -27,11 +23,10 @@ class _ExamScreenState extends State<ExamScreen> {
     if (d != null) {
       setState(() {
         chosenDate = d;
-        chosenTime = null; // reset time when new date chosen
+        chosenTime = null; 
       });
     }
   }
-
   void _pickTime() async {
     final t = await showTimePicker(
       context: context,
@@ -39,11 +34,8 @@ class _ExamScreenState extends State<ExamScreen> {
     );
     if (t != null) setState(() => chosenTime = t);
   }
-
   void _addExam() {
     if (course.text.trim().isEmpty || chosenDate == null || chosenTime == null) return;
-
-    // Combine date + time into a single DateTime for Firestore
     final dateTime = DateTime(
       chosenDate!.year,
       chosenDate!.month,
@@ -51,14 +43,12 @@ class _ExamScreenState extends State<ExamScreen> {
       chosenTime!.hour,
       chosenTime!.minute,
     );
-
     final e = Exam(
       id: '',
       courseName: course.text.trim(),
       date: dateTime,
       department: dept.text.trim(),
     );
-
     _fs.addExam(e);
     course.clear();
     dept.clear();
@@ -67,7 +57,6 @@ class _ExamScreenState extends State<ExamScreen> {
       chosenTime = null;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,8 +83,6 @@ class _ExamScreenState extends State<ExamScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-
-                // DATE PICKER
                 Row(
                   children: [
                     Expanded(
@@ -111,8 +98,6 @@ class _ExamScreenState extends State<ExamScreen> {
                     ),
                   ],
                 ),
-
-                // TIME PICKER (visible only after date chosen)
                 if (chosenDate != null) ...[
                   const SizedBox(height: 8),
                   Row(
@@ -140,8 +125,6 @@ class _ExamScreenState extends State<ExamScreen> {
               ],
             ),
           ),
-
-          // DISPLAY EXAMS
           Expanded(
             child: StreamBuilder<List<Exam>>(
               stream: _fs.examsStream(),

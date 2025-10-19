@@ -6,19 +6,16 @@ import '../services/auth_service.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
 import 'dashboard_screen.dart';
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
-
 class _RegisterScreenState extends State<RegisterScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
   final name = TextEditingController();
   bool loading = false;
-
   void _register() async {
     setState(() => loading = true);
     final auth = Provider.of<AuthService>(context, listen: false);
@@ -32,7 +29,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() => loading = false);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

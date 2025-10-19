@@ -7,18 +7,15 @@ import 'register_screen.dart';
 import 'dashboard_screen.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/custom_button.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
   bool loading = false;
-
   void _login() async {
     setState(() => loading = true);
     final auth = Provider.of<AuthService>(context, listen: false);
@@ -32,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => loading = false);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
