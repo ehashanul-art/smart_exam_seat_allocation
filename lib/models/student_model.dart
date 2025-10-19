@@ -4,13 +4,11 @@ class Student {
   final String department;
   final String roll;
   Student({required this.id, required this.name, required this.department, required this.roll});
-
   Map<String, dynamic> toMap() => {
     'name': name,
     'department': department,
     'roll': roll,
   };
-
   factory Student.fromMap(Map<String, dynamic> data, String id) => Student(
     id: id,
     name: data['name'] ?? '',

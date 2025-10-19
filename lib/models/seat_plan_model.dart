@@ -5,7 +5,6 @@ class SeatPlanItem {
   final String studentName;
   final String roomNo;
   final int seatNo;
-
   SeatPlanItem({
     required this.id,
     required this.examId,
@@ -14,7 +13,6 @@ class SeatPlanItem {
     required this.roomNo,
     required this.seatNo,
   });
-
   Map<String, dynamic> toMap() => {
     'exam_id': examId,
     'student_id': studentId,
@@ -22,7 +20,6 @@ class SeatPlanItem {
     'room_no': roomNo,
     'seat_no': seatNo,
   };
-
   factory SeatPlanItem.fromMap(Map<String, dynamic> data, String id) => SeatPlanItem(
     id: id,
     examId: data['exam_id'] ?? '',
