@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "175298847387",
+    "project_id": "smartexamseatallocation",
+    "storage_bucket": "smartexamseatallocation.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175298847387:android:8852de15057344264e1c3e",
+        "android_client_info": {
+          "package_name": "com.example.smart_exam_seat_allocation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWjRWs1AYznFcm-PRFwmolhrOmhv-4skw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
