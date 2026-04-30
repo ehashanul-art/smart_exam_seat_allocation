@@ -1,0 +1,36 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "smartexamseatallocation-f5348",
+          "appId": "1:184562485017:android:e97f3464d2b4bb7ad96788",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "smartexamseatallocation-f5348",
+          "configurations": {
+            "android": "1:184562485017:android:e97f3464d2b4bb7ad96788",
+            "web": "1:184562485017:web:9b326121c92fd335d96788"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}
